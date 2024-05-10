@@ -1,4 +1,5 @@
 import prismaClient from "../../prisma";
+import { hash } from "bcryptjs";
 interface UserRequest{
     name: string;
     email: string;
@@ -15,6 +16,8 @@ class CreateUserService{
             throw new Error("Email incorrect")
 
         }
+         const passwordHash = await hash(password, 8);
+ 
         // Verificar se o email esta cadastrado na plataforma 
          const  userAlreadyExists =  await prismaClient.user.findFirst({
             where:{
@@ -28,14 +31,14 @@ class CreateUserService{
             data:{
                 name: name,
                 email: email,
-                password: password ,
+                password: passwordHash,
             },
             select:{
             id: true,
             name: true,
             email: true,
             }
-        })
+        }) 
  
        
         return user;
