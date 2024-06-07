@@ -1,8 +1,19 @@
 import { Response, Request } from "express";
+import CreateProductService from "../../services/produtos/AddProdutosServices";
 
 class CreateProductController{
-    async handle(){
-
+    async handle(req: Request, res: Response ){
+        const {name, price, description, category_id} = req.body;   
+        let banner = '';
+        const createProductService = new CreateProductService();   
+        const product = await createProductService.execute({
+            name, 
+            price,
+            description,        
+            banner,
+            category_id,
+        });
+        return res.json(product);  
     }
 }
 

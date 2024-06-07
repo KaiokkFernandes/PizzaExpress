@@ -5,12 +5,12 @@ interface ProdutoRequest {
     price : number; 
     description: string;    
     banner: string; 
-    category_ud: string; 
+    category_id: string; 
 } 
 
 
 class CreateProductService{
-    async execute({name, price, description, banner, category_ud}: ProdutoRequest){
+    async execute({name, price, description, banner, category_id}: ProdutoRequest){
         
           return{ok: true}        
     
