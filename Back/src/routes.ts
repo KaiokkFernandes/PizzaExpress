@@ -15,5 +15,8 @@ router.get('/me',new DetailUserController().handle)
 router.post('/category', new CreateCategoryController().handle)
 router.get('/listCategory', new ListCategoryController().handle) 
 
+
+//Lista de produtos
+
 export {router};
 
