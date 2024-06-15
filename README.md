@@ -1,30 +1,36 @@
-README do Banco de Dados "ChinaDB"
+
+README - Banco de Dados de Atletas Chineses
+
 Tabelas
-1. Olimpíadas (olimpiadas)
-Armazena informações sobre as diferentes edições das Olimpíadas, incluindo a cidade sede, o ano e a temporada (Verão ou Inverno).
+china_atletas
+Armazena informações sobre os atletas, incluindo:
 
-id_olimpiada: INT, Identificador único.
-cidade: VARCHAR, Nome da cidade sede.
-ano: INT, Ano de realização.
-temporada: VARCHAR, Temporada das Olimpíadas (Verão/Inverno).
-2. Eventos (eventos)
-Contém detalhes sobre cada evento esportivo ocorrido nas Olimpíadas, categorizado por esporte.
+nome: Nome do atleta.
+sexo: Sexo do atleta.
+idade: Idade do atleta.
+altura: Altura do atleta.
+peso: Peso do atleta.
+modalidade: Esporte em que o atleta compete.
+olimpiadas
+Contém informações sobre as diferentes edições das Olimpíadas:
 
-id_evento: INT, Identificador único.
-evento: VARCHAR, Nome do evento.
-esporte: VARCHAR, Tipo de esporte.
-3. Modalidades (modalidades)
-Associa os eventos esportivos às edições das Olimpíadas em que ocorreram.
+cidade: Cidade onde a Olimpíada foi realizada.
+ano: Ano de realização da Olimpíada.
+temporada: Temporada da Olimpíada (Verão ou Inverno).
+eventos
+Armazena detalhes dos eventos olímpicos:
 
-id_evento: INT, Identificador do evento.
-id_olimpiada: INT, Identificador da Olimpíada.
-4. Participações (participacoes)
-Registra as participações de atletas nos eventos, incluindo resultados como medalhas.
+evento: Nome do evento.
+esporte: Esporte associado ao evento.
+modalidades
+Tabela de relação muitos-para-muitos entre Olimpíadas e Eventos:
 
-id_atleta: INT, Identificador do atleta.
-id_olimpiada: INT, Identificador da Olimpíada.
-id_evento: INT, Identificador do evento.
-medalha: VARCHAR, Tipo de medalha recebida (se houver).
-Relações
-As tabelas estão interligadas através de chaves estrangeiras que garantem a integridade e a relação lógica entre os registros.
+id_olimpiada: Identificador da Olimpíada.
+id_evento: Identificador do evento.
+participacoes
+Tabela de relação muitos-para-muitos que também inclui o resultado dos atletas:
 
+id_atleta: Identificador do atleta.
+id_olimpiada: Identificador da Olimpíada.
+id_evento: Identificador do evento.
+medalha: Medalha recebida pelo atleta (Ouro, Prata, Bronze ou Nenhuma).
