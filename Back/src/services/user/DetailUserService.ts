@@ -13,3 +13,6 @@ class DetailUserService{
 }
 
 export {DetailUserService}
+
+
+
