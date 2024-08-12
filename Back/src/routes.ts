@@ -25,5 +25,6 @@ router.get('/listCategory', new ListCategoryController().handle)
 
 //Lista de produtos
 router.post('/product', upload.single('file'), new CreateProductController().handle)   
+router.get('/category/product', new ListCategoryController().handle)    
 export {router};
 
