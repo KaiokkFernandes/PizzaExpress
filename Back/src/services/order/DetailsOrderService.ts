@@ -7,9 +7,13 @@ interface OrderRequest{
 
 class DetailOrderService{
     async execute({order_id}: OrderRequest){
-        const orders = await prismaClient.order.findUnique({
+        const orders = await prismaClient.item.findMany({
             where:{
                 id: order_id
+            },
+            include:{
+                product: true,
+                order: true 
             }
             
         })
