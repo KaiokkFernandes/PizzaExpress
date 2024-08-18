@@ -9,6 +9,7 @@ import { CreateProductController } from "./controllers/product/CreateProductCont
 import uploadConfig from "./config/multer";
 import { RemoveOrderController } from "./controllers/order/deleteOrderController";
 import { AddItemController } from "./controllers/order/addItemOrderController";
+import { RemoveItemController } from "./controllers/order/removeItemController";
 
 
 const router = Router();
@@ -34,6 +35,7 @@ router.post('/order', new CreateUserController().handle)
 router.delete('/delete', new RemoveOrderController().handle)
 
 //rota de adicionar item ao pedido  
-router.post('/addItem', new AddItemController().handle)
+router.post('/order/add', new AddItemController().handle)
+router.delete('/order/remove', new RemoveItemController().handle)  
 export {router};
 
