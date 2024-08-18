@@ -14,6 +14,7 @@ import { SendOrderController } from "./controllers/order/sendOrderController";
 import { ListOrderController } from "./controllers/order/ListOrderController";
 import { DetailOrderService } from "./services/order/DetailsOrderService";
 import { DetailOrderController } from "./controllers/order/detailOrderController";
+import { CompletedOrderController } from "./controllers/order/completedOrderController";
 
 
 const router = Router();
@@ -44,5 +45,6 @@ router.put('/order/send', new SendOrderController().handle)
 
 router.get('/ListOrder', new ListOrderController().handle)
 router.get('/order/detail', new DetailOrderController().handle)    
+router.put('order/completed', new CompletedOrderController().handle)
 export {router};
 
