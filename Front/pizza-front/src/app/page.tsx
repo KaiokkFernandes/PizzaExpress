@@ -5,6 +5,7 @@ import logo from "/public/logo.svg";
 import Link from "next/link";
 import { api } from "@/services/api";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export default function Home() {
   
@@ -22,11 +23,20 @@ export default function Home() {
         email,
         password
       });
+       cookies().set("session", response.data.token, {
+      maxAge: 60 * 60 * 24 * 7, 
+      path: "/",
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",  
+       });
     } catch {
       alert("Erro ao logar");
       return;
     };
     redirect("/dashboard");
+
+
+   
    }
 
   return (
