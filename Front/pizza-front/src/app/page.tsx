@@ -27,14 +27,16 @@ export default function Home() {
       maxAge: 60 * 60 * 24 * 7, 
       path: "/",
       httpOnly: false,
-      secure: process.env.NODE_ENV === "production",  
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict"  
+        
        });
     } catch {
       alert("Erro ao logar");
       return;
     };
     redirect("/dashboard");
-
+    
 
    
    }
