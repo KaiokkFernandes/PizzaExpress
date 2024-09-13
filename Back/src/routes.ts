@@ -1,8 +1,8 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import multer from "multer";
-import {CreateUserController} from './controllers/user/createUserController';  
-import {AuthUserController} from './controllers/user/AuthUserController';   
-import {DetailUserController} from './controllers/user/DetailUserController';
+import { CreateUserController } from './controllers/user/createUserController';  
+import { AuthUserController } from './controllers/user/AuthUserController';   
+import { DetailUserController } from './controllers/user/DetailUserController';
 import { CreateCategoryController } from "./controllers/category/CreateCategoryController"; 
 import { ListCategoryController } from "./controllers/category/ListCategoryController";
 import { CreateProductController } from "./controllers/product/CreateProductController";
@@ -12,39 +12,48 @@ import { AddItemController } from "./controllers/order/addItemOrderController";
 import { RemoveItemController } from "./controllers/order/removeItemController";
 import { SendOrderController } from "./controllers/order/sendOrderController";
 import { ListOrderController } from "./controllers/order/ListOrderController";
-import { DetailOrderService } from "./services/order/DetailsOrderService";
 import { DetailOrderController } from "./controllers/order/detailOrderController";
 import { CompletedOrderController } from "./controllers/order/completedOrderController";
+import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
+
 
 
 const router = Router();
-
 const upload = multer(uploadConfig.upload("./assets"));
 
-/* Rotas de Users*/
-router.post('/users', new CreateUserController().handle)
-router.post('/session', new AuthUserController().handle)
+/* Rotas de Users */
+router.post('/users', new CreateUserController().handle);
+router.post('/session', new AuthUserController().handle);
 
-router.get('/me',new DetailUserController().handle)
+// Rota protegida, precisa de autenticação
+router.get('/me', ensureAuthenticated, new DetailUserController().handle);
 
-router.post('/category', new CreateCategoryController().handle)
-router.get('/listCategory', new ListCategoryController().handle) 
+// Rotas de categorias (protegidas por autenticação)
+router.post('/category', ensureAuthenticated, new CreateCategoryController().handle);
+router.get('/listCategory', ensureAuthenticated, new ListCategoryController().handle);
 
+// Lista de produtos (protegida)
+router.post('/product', ensureAuthenticated, upload.single('file'), new CreateProductController().handle);
+router.get('/category/product', ensureAuthenticated, new ListCategoryController().handle);
 
-//Lista de produtos
-router.post('/product', upload.single('file'), new CreateProductController().handle)   
-router.get('/category/product', new ListCategoryController().handle)   
- 
-router.post('/order', new CreateUserController().handle)
-router.delete('/delete', new RemoveOrderController().handle)
+// Rotas de pedidos (protegidas)
+router.post('/order', ensureAuthenticated, new CreateUserController().handle);
+router.delete('/delete', ensureAuthenticated, new RemoveOrderController().handle);
 
-//rota de adicionar item ao pedido  
-router.post('/order/add', new AddItemController().handle)
-router.delete('/order/remove', new RemoveItemController().handle)  
-router.put('/order/send', new SendOrderController().handle)  
+// Rotas de adicionar/remover itens ao pedido (protegidas)
+router.post('/order/add', ensureAuthenticated, new AddItemController().handle);
+router.delete('/order/remove', ensureAuthenticated, new RemoveItemController().handle);
 
-router.get('/ListOrder', new ListOrderController().handle)
-router.get('/order/detail', new DetailOrderController().handle)    
-router.put('order/completed', new CompletedOrderController().handle)
-export {router};
+// Enviar pedido (protegida)
+router.put('/order/send', ensureAuthenticated, new SendOrderController().handle);
 
+// Lista de pedidos (protegida)
+router.get('/ListOrder', ensureAuthenticated, new ListOrderController().handle);
+
+// Detalhes do pedido (protegida)
+router.get('/order/detail', ensureAuthenticated, new DetailOrderController().handle);
+
+// Finalizar pedido (protegida)
+router.put('/order/completed', ensureAuthenticated, new CompletedOrderController().handle);
+
+export { router };
